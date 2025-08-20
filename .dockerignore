@@ -1,0 +1,15 @@
+# keep local venv, but never send it to Docker
+venv/
+
+# logs & big artifacts
+CarDreamer/logdir/
+**/*.npz
+**/*.ckpt
+**/wandb/
+**/tensorboard/
+
+# misc
+__pycache__/
+*.pyc
+.git/
+.DS_Store
