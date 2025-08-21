@@ -4,7 +4,6 @@ astunparse==1.6.3
 attrs==25.3.0
 blinker==1.9.0
 cachetools==5.5.2
--e git+https://github.com/UCD-DARE/CarDreamer.git@c75ae3e4c48df4bb0ff47a87a12a10bbc8653689#egg=car_dreamer
 carla==0.9.15
 certifi==2025.8.3
 charset-normalizer==3.4.3
