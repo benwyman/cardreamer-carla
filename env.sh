@@ -12,11 +12,6 @@ export PYTHONPATH=/workspace/base/carla_project/CarDreamer:$PYTHONPATH   # <-- a
 export XDG_RUNTIME_DIR=/tmp/$USER-runtime
 mkdir -p $XDG_RUNTIME_DIR && chmod 700 $XDG_RUNTIME_DIR
 
-# Headless: make sure nothing points to X
-unset DISPLAY
-export QT_QPA_PLATFORM=offscreen
-export SDL_VIDEODRIVER=offscreen
-
 cd $DREAMER_ROOT
 
 echo "[env.sh] Ready inside CarDreamer"
