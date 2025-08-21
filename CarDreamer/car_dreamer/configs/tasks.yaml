@@ -36,7 +36,7 @@ carla_navigation:
 carla_four_lane:
   env:
     name: CarlaFourLaneEnv-v0
-    observation.enabled: [camera, collision]
+    observation.enabled: [camera, collision, birdeye_wpt]
     num_vehicles: 20
     <<: *carla_wpt
     lane_start_points:
