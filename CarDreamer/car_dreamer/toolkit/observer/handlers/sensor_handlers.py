@@ -18,7 +18,13 @@ class SensorHandler(BaseHandler):
         super().__init__(world, config)
         blueprint = self._world.get_blueprint(config.blueprint)
         if "transform" in config:
-            self._transform = carla.Transform(carla.Location(**config.transform))
+            t = dict(config.transform)
+            loc = {k: t.get(k, 0.0) for k in ("x", "y", "z")}
+            rot = {k: t.get(k, 0.0) for k in ("roll", "pitch", "yaw")}
+            self._transform = carla.Transform(
+                carla.Location(**loc),
+                carla.Rotation(**rot)
+            )
         else:
             self._transform = carla.Transform()
         if "attributes" in config:
