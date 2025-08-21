@@ -25,6 +25,38 @@ env:
         fov: 120.0
         sensor_tick: 0.1
 
+    camera_left:
+      handler: camera
+      blueprint: sensor.camera.rgb
+      key: camera_left
+      shape: [128, 128, 3]
+      transform:
+        x: 1.5
+        y: -0.5      # left of ego (CARLA: +y is right, -y is left)
+        z: 2.0
+        yaw: -60.0   # look to the left
+      attributes:
+        image_size_x: 128
+        image_size_y: 128
+        fov: 120.0
+        sensor_tick: 0.1
+
+    camera_right:
+      handler: camera
+      blueprint: sensor.camera.rgb
+      key: camera_right
+      shape: [128, 128, 3]
+      transform:
+        x: 1.5
+        y: 0.5       # right of ego
+        z: 2.0
+        yaw: 60.0    # look to the right
+      attributes:
+        image_size_x: 128
+        image_size_y: 128
+        fov: 120.0
+        sensor_tick: 0.1
+
     # LiDAR sensor
     lidar:
       handler: lidar
