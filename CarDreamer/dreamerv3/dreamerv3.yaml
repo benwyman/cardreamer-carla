@@ -57,7 +57,7 @@ defaults:
   expl_behavior: None
   batch_size: 16
   batch_length: 32
-  data_loaders: 0
+  data_loaders: 1
 
   # World Model
   grad_heads: [decoder, reward, cont]
