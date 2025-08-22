@@ -16,4 +16,17 @@ cd $DREAMER_ROOT
 
 echo "[env.sh] Ready inside CarDreamer"
 
-export TF_XLA_FLAGS=--tf_xla_auto_jit=2
+#
+# ---- Stability knobs (JAX/XLA + quiet TF) ----
+# 1) Turn OFF TF auto-JIT (JAX doesn’t use this; avoids extra TF compile churn)
+unset TF_XLA_FLAGS
+# 2) Make JAX/XLA GPU convs deterministic and dial back cuDNN autotuning
+#    (prevents those bf16 conv “results mismatch” crashes on Ada + CUDA 12.9 + cuDNN 9.12)
+export XLA_FLAGS="--xla_gpu_autotune_level=0 --xla_gpu_deterministic_ops=true"
+# 3) Optional: reduce glibc heap fragmentation (helps host RAM spikes a bit)
+export MALLOC_ARENA_MAX=2
+# 4) Optional: quiet TF warnings (since TF runs on CPU for you)
+export TF_CPP_MIN_LOG_LEVEL=2
+# 5) Optional safety: log (don’t crash) if any implicit host→device copy slips through.
+#    Leave commented out if you applied the explicit device_put fix in train.py.
+export JAX_TRANSFER_GUARD=log
