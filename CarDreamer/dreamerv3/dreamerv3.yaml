@@ -55,8 +55,8 @@ defaults:
   # Agent
   task_behavior: Greedy
   expl_behavior: None
-  batch_size: 8
-  batch_length: 32
+  batch_size: 4
+  batch_length: 24
   data_loaders: 1
 
   # World Model
@@ -249,7 +249,7 @@ defaults:
       fan: avg,
     }
   disag_target: [stoch]
-  disag_models: 8
+  disag_models: 4
 
   # Replay Configuration
   replay_hyper:
