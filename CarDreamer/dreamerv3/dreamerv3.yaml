@@ -56,7 +56,7 @@ defaults:
   task_behavior: Greedy
   expl_behavior: None
   batch_size: 2
-  batch_length: 24
+  batch_length: 16
   data_loaders: 1
 
   # World Model
