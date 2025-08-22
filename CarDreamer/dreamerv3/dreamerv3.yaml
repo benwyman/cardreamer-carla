@@ -5,7 +5,7 @@ defaults:
   logdir: /dev/null
   replay: uniform
   # Use smalelr replay t osave memory; 1e5 can be suffcient for most tasks
-  replay_size: 1e6
+  replay_size: 2e5
   replay_online: False
   eval_dir: ""
   filter: ".*"
@@ -32,7 +32,7 @@ defaults:
     eval_initial: True
     eval_eps: 1
     eval_samples: 1
-    train_ratio: 8
+    train_ratio: 4
     train_fill: 0
     eval_fill: 0
     log_zeros: False
@@ -57,7 +57,7 @@ defaults:
   expl_behavior: None
   batch_size: 16
   batch_length: 32
-  data_loaders: 8
+  data_loaders: 0
 
   # World Model
   grad_heads: [decoder, reward, cont]
