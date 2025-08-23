@@ -79,7 +79,7 @@ class Agent(nj.Module):
         state, wm_outs, mets = self.wm.train(data, state)
         jax.tree_util.tree_map(
             lambda x: x.block_until_ready() if hasattr(x, "block_until_ready") else x,
-            (wm_outs, mets),
+            (state, wm_outs, mets),
         )
         wm_time = time.perf_counter() - t0
         metrics.update(mets)
@@ -91,10 +91,10 @@ class Agent(nj.Module):
     
         # ---- ACTOR–CRITIC (task_behavior) update & timing ----
         t1 = time.perf_counter()
-        _, mets = self.task_behavior.train(self.wm.imagine, start, context)
+        traj, mets = self.task_behavior.train(self.wm.imagine, start, context)
         jax.tree_util.tree_map(
             lambda x: x.block_until_ready() if hasattr(x, "block_until_ready") else x,
-            mets,
+            (traj, mets),
         )
         ac_time = time.perf_counter() - t1
         metrics.update(mets)
