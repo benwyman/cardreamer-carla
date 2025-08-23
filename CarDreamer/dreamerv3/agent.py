@@ -72,16 +72,45 @@ class Agent(nj.Module):
         self.config.jax.jit and print("Tracing train function.")
         metrics = {}
         data = self.preprocess(data)
+    
+        # ---- WORLD MODEL update & timing ----
+        t0 = time.perf_counter()
         state, wm_outs, mets = self.wm.train(data, state)
+        jax.tree_util.tree_map(
+            lambda x: x.block_until_ready() if hasattr(x, "block_until_ready") else x,
+            (wm_outs, mets),
+        )
+        wm_time = time.perf_counter() - t0
         metrics.update(mets)
+        metrics["wm_time_s"] = wm_time
+    
+        # Build context for AC updates.
         context = {**data, **wm_outs["post"]}
         start = tree_map(lambda x: x.reshape([-1] + list(x.shape[2:])), context)
+    
+        # ---- ACTOR–CRITIC (task_behavior) update & timing ----
+        t1 = time.perf_counter()
         _, mets = self.task_behavior.train(self.wm.imagine, start, context)
+        jax.tree_util.tree_map(
+            lambda x: x.block_until_ready() if hasattr(x, "block_until_ready") else x,
+            mets,
+        )
+        ac_time = time.perf_counter() - t1
         metrics.update(mets)
+        metrics["ac_time_s"] = ac_time
+    
+        # ---- Optional exploration behavior timing ----
         if self.config.expl_behavior != "None":
+            t2 = time.perf_counter()
             _, mets = self.expl_behavior.train(self.wm.imagine, start, context)
+            jax.tree_util.tree_map(
+                lambda x: x.block_until_ready() if hasattr(x, "block_until_ready") else x,
+                mets,
+            )
+            expl_time = time.perf_counter() - t2
             metrics.update({"expl_" + key: value for key, value in mets.items()})
-
+            metrics["expl_time_s"] = expl_time
+    
         if "keyA" in data.keys():
             outs = {
                 "key": data["key"],
@@ -89,15 +118,14 @@ class Agent(nj.Module):
                 "model_loss": metrics["model_loss_raw"].copy(),
                 "td_error": metrics["td_error"].copy(),
             }
-
         else:
             outs = {}
-
-        # Don't need the full model_loss_raw or td_error after the priority calculation, summarize it.
+    
+        # Summarize heavy tensors after priority calc.
         metrics.update({"model_loss_raw": metrics["model_loss_raw"].mean()})
         metrics.update({"td_error": metrics["td_error"].mean()})
-
         return outs, state, metrics
+
 
     def report(self, data):
         self.config.jax.jit and print("Tracing report function.")
