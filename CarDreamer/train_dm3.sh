@@ -10,7 +10,7 @@ fi
 CARLA_PORT=$1
 GPU_DEVICE=$2
 LOG_FILE="log_${CARLA_PORT}.log"
-CARLA_SERVER_COMMAND="$CARLA_ROOT/CarlaUE4.sh -RenderOffScreen -carla-port=$CARLA_PORT -benchmark -fps=10"
+CARLA_SERVER_COMMAND="$CARLA_ROOT/CarlaUE4.sh -RenderOffScreen -quality-level=Low -carla-port=$CARLA_PORT -benchmark -fps=10"
 TRAINING_SCRIPT="dreamerv3/train.py"
 COMMON_PARAMS="--env.world.carla_port $CARLA_PORT --dreamerv3.jax.policy_devices $GPU_DEVICE --dreamerv3.jax.train_devices $GPU_DEVICE"
 ADDITIONAL_PARAMS="${@:3}"  # Capture all additional parameters passed to the script
@@ -27,7 +27,7 @@ log_with_timestamp() {
 # Function to start or restart CARLA
 launch_carla() {
     # Check if CARLA is running
-    if ! pgrep -f "CarlaUE4.sh -RenderOffScreen -carla-port=$CARLA_PORT -benchmark -fps=10" > /dev/null; then
+    if ! pgrep -f "CarlaUE4.sh -RenderOffScreen -quality-level=Low -carla-port=$CARLA_PORT -benchmark -fps=10" > /dev/null; then
         log_with_timestamp "CARLA server is not running on port $CARLA_PORT. Starting or restarting..."
         # Kill any existing CARLA processes on the same port
         fuser -k ${CARLA_PORT}/tcp
