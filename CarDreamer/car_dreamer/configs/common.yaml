@@ -15,13 +15,13 @@ env:
       handler: camera
       blueprint: sensor.camera.rgb
       key: camera
-      shape: [128, 128, 3]
+      shape: [64, 64, 3]
       transform:
         x: 1.5
         z: 2.0
       attributes:
-        image_size_x: 128
-        image_size_y: 128
+        image_size_x: 64
+        image_size_y: 64
         fov: 120.0
         sensor_tick: 0.1
 
@@ -29,15 +29,15 @@ env:
       handler: camera
       blueprint: sensor.camera.rgb
       key: camera_left
-      shape: [128, 128, 3]
+      shape: [64, 64, 3]
       transform:
         x: 1.5
         y: -0.5      # left of ego (CARLA: +y is right, -y is left)
         z: 2.0
         yaw: -60.0   # look to the left
       attributes:
-        image_size_x: 128
-        image_size_y: 128
+        image_size_x: 64
+        image_size_y: 64
         fov: 120.0
         sensor_tick: 0.1
 
@@ -45,15 +45,15 @@ env:
       handler: camera
       blueprint: sensor.camera.rgb
       key: camera_right
-      shape: [128, 128, 3]
+      shape: [64, 64, 3]
       transform:
         x: 1.5
         y: 0.5       # right of ego
         z: 2.0
         yaw: 60.0    # look to the right
       attributes:
-        image_size_x: 128
-        image_size_y: 128
+        image_size_x: 64
+        image_size_y: 64
         fov: 120.0
         sensor_tick: 0.1
 
@@ -62,7 +62,7 @@ env:
       handler: lidar
       blueprint: sensor.lidar.ray_cast
       key: lidar
-      shape: [128, 128, 3]
+      shape: [64, 64, 3]
       lidar_bin: 0.25
       ego_offset: 12
       transform:
@@ -190,7 +190,7 @@ env:
       entities: [roadmap, waypoints, error_background_waypoints, ego_vehicle, background_vehicles]
 
   display:
-    enable: True
+    enable: False
     render_keys: [camera, birdeye_wpt]
     image_size: 512
 
