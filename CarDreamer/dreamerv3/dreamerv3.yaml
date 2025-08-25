@@ -32,7 +32,7 @@ defaults:
     eval_initial: True
     eval_eps: 1
     eval_samples: 1
-    train_ratio: 512
+    train_ratio: 1024
     train_fill: 0
     eval_fill: 0
     log_zeros: False
@@ -50,7 +50,7 @@ defaults:
       length: 0,
       reset: True,
     }
-  wrapper: { length: 0, reset: True, discretize: 0, checks: False }
+  wrapper: { length: 0, reset: True, discretize: 0, checks: False, repeat: 4 }
 
   # Agent
   task_behavior: Greedy
@@ -270,7 +270,8 @@ xsmall:
 
 small:
   rssm.deter: 512
-  .*\.cnn_depth: 32
+  encoder.cnn_depth: 24
+  decoder.cnn_depth: 32
   .*\.units: 512
   .*\.layers: 2
 
