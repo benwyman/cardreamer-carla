@@ -43,8 +43,7 @@ chmod +x scripts/get_carla_0915.sh
 
 ./scripts/get_carla_0915.sh
 
-# 5) Vulkan user-space + ffmpeg (key fix for headless CARLA + GIF/video
-summaries)
+# 5) Vulkan user-space + ffmpeg (key fix for headless CARLA + GIF/video summaries)
 
 apt-get update
 
